@@ -1,14 +1,5 @@
-import { useMainStore as mainStore } from './store/store';
-import { defineNuxtConfig } from '@nuxt/bridge';
-
-
-
-
+import {useMainStore as mainStore} from './store/store';
 export default defineNuxtConfig({
-    modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
-    // router: {
-    //     options: {
-    //         middleware: ['auth'],
-    //     },
-    // },
+    modules:['@nuxtjs/tailwindcss','@pinia/nuxt'],
+    // possible authenticate routes
 })

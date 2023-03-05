@@ -92,7 +92,7 @@
                 </div>
             </div>
         </section>
-        {{ email }}
+        {{ auth }}
     </div>
 </template>
 
@@ -109,7 +109,7 @@ const authStore = useAuthStore();
 let email = ref("D@Z.com")
 let password = ref("123");
 
-
+let auth = computed(() => authStore.getAuth)
 const loginPressed = async () => {
     try {
         const response = await axios({
@@ -117,8 +117,11 @@ const loginPressed = async () => {
             method: `post`,
             data: { email: email.value, password: password.value }
         });
-        authStore.$state.authenticated = true;
-        console.log(response)
+        let auth = ref(authStore.authenticated)
+        authStore.login()
+        auth.value = true;
+        //console.log(authStore.$state.authenticated)
+        //console.log(response)
     } catch (err) {
         console.log(err)
     }
