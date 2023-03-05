@@ -8,7 +8,7 @@
                             class="w-full" alt="Sample image" />
                     </div>
                     <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                        <form @submit.prevent=""><!--Need to fill this section in-->
+                        <form @submit.prevent="signUpButton"><!--Need to fill this section in-->
                             <div class="flex flex-row items-center justify-center lg:justify-start">
                                 <p class="text-lg mb-0 mr-4">Sign in with</p>
                                 <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
@@ -51,62 +51,56 @@
                             <!-- FirstName input -->
                             <div class="flex justify-between items-center">
                                 <div class="mb-6 mr-5">
-                                    <label :class="{ ['text-red-900']: firstNameError }">First name</label>
-                                    <input type="text"
-                                        :class="{ ['text-red-700 border border-solid border-red-600']: firstNameError }"
+                                    <label>First name</label>
+                                    <input type="text" v-model="firstName"
                                         class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                        placeholder="First Name" />
+                                        placeholder="First Name" required />
                                 </div>
 
                                 <!-- LastName input -->
                                 <div class="mb-6 ml-5">
-                                    <label :class="{ ['text-red-900']: lastNameError }">Last name</label>
-                                    <input type="text"
-                                        :class="{ ['text-red-700 border border-solid border-red-600']: lastNameError }"
+                                    <label>Last name</label>
+                                    <input type="text" v-model="lastName"
                                         class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                        id="exampleFormControlInput2" placeholder="Last Name" />
+                                        id="exampleFormControlInput2" placeholder="Last Name" required />
                                 </div>
                             </div>
 
                             <div class="flex justify-between items-center">
                                 <div class="mb-6 mr-5">
-                                    <label :class="{ ['text-red-900']: lastNameError }">Age</label>
-                                    <input :class="{ ['text-red-700 border border-solid border-red-600']: ageError }"
-                                        type="number"
+                                    <label>Age</label>
+                                    <input type="number" v-model="age"
                                         class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                        placeholder="Age" min="0" max="120" />
+                                        placeholder="Age" min="18" max="120" required />
                                 </div>
 
 
                                 <div class="mb-6 ml-5">
-                                    <label :class="{ ['text-red-900']: weightError }">Weight</label>
-                                    <input :class="{ ['text-red-700 border border-solid border-red-600']: weightError }"
-                                        type="number"
+                                    <label>Weight</label>
+                                    <input type="number" v-model="weight"
                                         class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                        id="exampleFormControlInput2" min="0" placeholder="KG" max="500" />
+                                        id="exampleFormControlInput2" min="0" placeholder="KG" max="500" required />
                                 </div>
                             </div>
 
                             <!-- Email input -->
                             <div class="mb-6">
-                                <label :class="{ ['text-red-900']: emailError }">Email Address</label>
-                                <input type="text" :class="{ ['text-red-700 border border-solid border-red-600']: emailError }"
-                                    v-model="email"
+                                <label>Email Address</label>
+                                <input type="email" v-model="email"
                                     class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                    id="exampleFormControlInput2" placeholder="Email address" />
+                                    id="exampleFormControlInput2" placeholder="Email address" required />
                             </div>
 
                             <!-- Password input -->
                             <div class="mb-6">
-                                <label :class="{ ['text-red-900']: passwordError }">Password</label>
-                                <input type="password"
-                                    :class="{ ['text-red-700 border border-solid border-red-600']: passwordError }"
+                                <label>Password</label>
+                                <input type="password" v-model="password"
                                     class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                    id="exampleFormControlInput2" placeholder="Password" />
+                                    id="exampleFormControlInput2" placeholder="Password" required />
                             </div>
 
                             <div class="text-center lg:text-left">
-                                <button type="submit" @click="signUpButton"
+                                <button type="submit"
                                     class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                     Sign Up
                                 </button>
@@ -130,62 +124,40 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useAuthStore } from '../store/store';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router'
+//import { useAuthStore } from '../store/store';
 import axios from 'axios';
-import VueAxios from 'vue-axios'
+// import { StdReturn } from '../types/types'
+// import VueAxios from 'vue-axios'
 
+//const authStore = useAuthStore();
+const router = useRouter()
+//const route = useRoute()
 
-const authStore = useAuthStore();
+let email = ref("D@Z.com")
+let password = ref("123");
+let firstName = ref("d")
+let lastName = ref("z")
+let age = ref(18)
+let weight = ref(50);
 
-let email = ref("")
-let password = ref("");
-let firstName = ref("")
-let lastName = ref("")
-
-let emailError = ref(false);
-let passwordError = ref(false);
-let firstNameError = ref(false);
-let lastNameError = ref(false);
-let aggError = ref(false);
-let weightError = ref(false);
-
-
-const signUpButton = () => {
-    let terminate = false;
-    emailError.value = false;
-    passwordError.value = false;
-    firstNameError.value = false;
-    lastNameError.value = false;
-
-    // if (email.value === "") {
-    //     emailError.value = true;
-    //     terminate=true;
-    // }
-    // if (password.value === "") {
-    //     passwordError.value = true;
-    //     terminate=true;
-    // }
-    // if (firstName.value === "") {
-    //     firstNameError.value = true;
-    //     terminate=true;
-    // }
-    // if (lastName.value === "") {
-    //     lastNameError.value = true;
-    //     terminate=true;
-    // }
-    // if (password.value === "") {
-    //     passwordError.value = true;
-    //     terminate=true;
-    // }
-    // if (terminate){
-    //     return;
-    // }
-
-    const response = axios.get('localhost:5000/helloworld');
-    
+const signUpButton = async () => {
+    try {
+        const response = await axios({
+            url: `http://localhost:5000/signup`,
+            method: `post`,
+            data: { email: email.value, password: password.value, firstName: firstName.value, lastName: lastName.value }
+        });
+        console.log(response);
+        router.push({name:'login'})
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 
 </script>
+
 
 <style scoped></style>

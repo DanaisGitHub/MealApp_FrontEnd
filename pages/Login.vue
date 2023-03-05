@@ -8,7 +8,7 @@
                             class="w-full" alt="Sample image" />
                     </div>
                     <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                        <form>
+                        <form @submit.prevent="loginPressed">
                             <div class="flex flex-row items-center justify-center lg:justify-start">
                                 <p class="text-lg mb-0 mr-4">Sign in with</p>
                                 <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
@@ -49,14 +49,14 @@
 
                             <!-- Email input -->
                             <div class="mb-6">
-                                <input type="text" v-model="email"
+                                <input type="text" v-model="email" required
                                     class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                     id="exampleFormControlInput2" placeholder="Email address" />
                             </div>
 
                             <!-- Password input -->
                             <div class="mb-6">
-                                <input type="password" v-model="password"
+                                <input type="password" v-model="password" required
                                     class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                     id="exampleFormControlInput2" placeholder="Password" />
                             </div>
@@ -73,7 +73,7 @@
                             </div>
 
                             <div class="text-center lg:text-left">
-                                <button type="button" @click="loginPressed"
+                                <button type="submit"
                                     class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                     Login
                                 </button>
@@ -85,9 +85,7 @@
                                             class="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out inline">
                                             Register</p>
                                     </router-link>
-
                                 </p>
-
                             </div>
                         </form>
                     </div>
@@ -98,28 +96,31 @@
     </div>
 </template>
 
+
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useAuthStore } from '../store/store';
 import axios from 'axios';
-import VueAxios from 'vue-axios'
+//mport VueAxios from 'vue-axios'
 
 
 const authStore = useAuthStore();
 
-let email = ref("")
-let password = ref("");
-let error = false;
+let email = ref("D@Z.com")
+let password = ref("123");
+
 
 const loginPressed = async () => {
     try {
-        const response: any = await axios.post('localhost:5000/login', { email: email.value, password: password.value })
-        localStorage.setItem('access_token', response.accessToken)
-        localStorage.setItem('refresh_token', response.refreshToken)
+        const response = await axios({
+            url: `http://localhost:5000/login`,
+            method: `post`,
+            data: { email: email.value, password: password.value }
+        });
         authStore.$state.authenticated = true;
+        console.log(response)
     } catch (err) {
         console.log(err)
-        error = true
     }
 }
 
