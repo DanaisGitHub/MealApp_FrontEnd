@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts"> 
-// the setup thing is fucking you up
+
 import { useAuthStore } from '../store/store';
 import { ref, defineComponent } from 'vue';
 import { useRouter } from 'vue-router'
