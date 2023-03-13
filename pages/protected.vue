@@ -16,7 +16,7 @@ const authStore = useAuthStore();
 
 let isAuth = computed(()=>authStore.getAuth)
 console.log(`SDLKJFLSAKNLKDSAGLKSAGNLKKL${isAuth.value}`);
-const beforeRouteEnter = () => {
+const beforeRouteEnter = () => { // will break
   if (!isAuth.value) {
     router.replace('/login')
   }
